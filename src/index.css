@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --surface: 0 0% 100%;
+    --surface-2: 210 40% 96%;
+    --border: 214 30% 93%;
+    --input: 214 30% 91%;
+    --ring: 160 84% 39%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 19% 35%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+    --grid-line: rgba(15, 31, 53, 0.028);
+    --grid-line-strong: rgba(15, 31, 53, 0.04);
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 214 59% 10%;
+    --foreground: 210 40% 98%;
+    --surface: 214 55% 13%;
+    --surface-2: 214 45% 18%;
+    --border: 214 42% 17%;
+    --input: 214 42% 20%;
+    --ring: 160 84% 39%;
+    --muted: 214 45% 18%;
+    --muted-foreground: 215 25% 68%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 214 59% 10%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 214 59% 10%;
+    --grid-line: rgba(16, 185, 129, 0.018);
+    --grid-line-strong: rgba(16, 185, 129, 0.035);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1, h2, h3, h4 {
+    @apply tracking-tight font-bold;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 99px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); background-clip: content-box; }
+}
+
+@layer components {
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .blueprint-grid-lg {
+    background-image:
+      linear-gradient(to right, var(--grid-line-strong) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line-strong) 1px, transparent 1px),
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 200px 200px, 200px 200px, 40px 40px, 40px 40px;
+  }
+
+  .tech-card {
+    @apply rounded-xl border bg-surface shadow-[0_1px_2px_rgba(2,8,23,0.04)];
+  }
+
+  /*
+   * Sistema de rotulos. O mono em caixa alta ficou reservado para chrome de
+   * instrumento e de documento; legenda comum usa peso e cor, nao maiuscula.
+   */
+  .label {
+    @apply text-xs font-medium text-muted-foreground;
+  }
+
+  .label-sm {
+    @apply text-[11px] text-muted-foreground;
+  }
+
+  /* Numero tecnico: mono, tabular, sem caixa alta. */
+  .valor-tecnico {
+    @apply font-mono tabular-nums;
+  }
+
+  .display-number {
+    @apply font-mono font-bold leading-none;
+    letter-spacing: -0.05em;
+  }
+
+  /*
+   * Placa que substitui uma foto que nao carregou. A legenda so aparece quando
+   * o espaco comporta: em miniatura ela quebrava em varias linhas ilegiveis.
+   */
+  .img-fallback {
+    container-type: inline-size;
+  }
+
+  .img-fallback-texto {
+    display: none;
+  }
+
+  @container (min-width: 7rem) {
+    .img-fallback-icone {
+      display: none;
+    }
+    .img-fallback-texto {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-muted;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 animate-shimmer;
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.06), transparent);
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
